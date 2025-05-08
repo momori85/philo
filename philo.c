@@ -6,7 +6,7 @@
 /*   By: amblanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 20:59:49 by amaury            #+#    #+#             */
-/*   Updated: 2025/02/12 14:14:50 by amblanch         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:48:19 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,8 @@ int main(int argc, char **argv)
 {
 	t_philo *philo;
 
-	philo = malloc(sizeof(t_create_philo) * 1);
+	philo = malloc(sizeof(t_philo) * 1);
 	if (philo == 0)
-		return (0);
-	philo->vars = malloc(sizeof(t_philo) * 1);
-	if (philo->vars == 0)
 		return (0);
 	if (argc != 5 && argc != 6)
 	{

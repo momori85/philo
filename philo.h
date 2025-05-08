@@ -6,7 +6,7 @@
 /*   By: amblanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 20:57:35 by amaury            #+#    #+#             */
-/*   Updated: 2025/02/12 14:15:15 by amblanch         ###   ########.fr       */
+/*   Updated: 2025/02/18 14:31:27 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@
 # include <time.h>
 # include <sys/time.h>
 
-
-typedef struct s_create_philo
-{
-	struct s_create_philo	*next;
-	struct s_create_philo	*prev;
-	pthread_mutex_t			fork;
-	struct timeval			time;
-	pthread_t				thread;
-	int						content;
-	int 					status;
-}				t_create_philo;
-
 typedef struct s_philo
 {
 	int				nb_philo;
@@ -39,12 +27,34 @@ typedef struct s_philo
 	int				time_eat;
 	int				time_sleep;
 	int				nb_eat;
-	t_create_philo *vars;
+	pthread_mutex_t			mutex_count;
+	int				count;
+	int 			status;
+	pthread_mutex_t			mutex_status;
 }				t_philo;
 
-t_create_philo	*ft_lstnew(int content);
+typedef struct s_create_philo
+{
+	struct s_create_philo	*next;
+	struct s_create_philo	*prev;
+	pthread_mutex_t			fork;
+	time_t					time;
+	time_t					time_init;
+	pthread_t				thread;
+	int						content;
+	t_philo 				*vars;
+}				t_create_philo;
+
+
+t_create_philo	*ft_lstnew(int content, t_philo *vars);
 void			ft_lstadd_front(t_create_philo **lst, t_create_philo *new);
 void			ft_lstclear(t_create_philo **lst, int len);
 void			ft_create_philo(t_philo *philo);
+int				ft_verif_died(t_create_philo *thread);
+time_t 			ft_get_time(void);
+void			ft_dead(t_create_philo *thread);
+void			ft_print_routine(char *str, t_create_philo *thread, int count);
+int				ft_eat_routine(t_create_philo *thread, int count);
+int				ft_sleep_routine(int running, t_create_philo *thread, int count);
 
 #endif
