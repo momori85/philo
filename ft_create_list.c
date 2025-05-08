@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_create_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaury <amaury@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amblanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:00:31 by amaury            #+#    #+#             */
-/*   Updated: 2025/02/17 20:50:17 by amaury           ###   ########.fr       */
+/*   Updated: 2025/05/08 10:18:10 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 t_create_philo	*ft_lstnew(int content, t_philo *vars)
 {
@@ -28,17 +28,14 @@ t_create_philo	*ft_lstnew(int content, t_philo *vars)
 	return (list);
 }
 
-void ft_lstadd_front(t_create_philo **lst, t_create_philo *new)
+void	ft_lstadd_front(t_create_philo **lst, t_create_philo *new)
 {
 	if (lst == NULL || new == NULL)
-		return;
-
+		return ;
 	new->next = *lst;
 	new->prev = NULL;
-
 	if (*lst != NULL)
 		(*lst)->prev = new;
-
 	*lst = new;
 }
 

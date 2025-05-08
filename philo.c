@@ -6,64 +6,40 @@
 /*   By: amblanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 20:59:49 by amaury            #+#    #+#             */
-/*   Updated: 2025/02/17 14:48:19 by amblanch         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:04:57 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int     ft_isdigit(int number)
+void	ft_create_philo(t_philo *vars)
 {
-    if (number > 47 && number < 58)
-        return (1);
-    return (0);
-}
+	t_create_philo	*thread;
+	int				count;
+	int				i;
 
-int     ft_atoi(const char *str)
-{
-        int     result;
-        int     minus;
-
-        minus = 1;
-        result = 0;
-        while ((*str >= 9 && *str <= 13) || *str == ' ')
-                str++;
-        if (*str == '+' || *str == '-')
-        {
-                if (*str == '-')
-                        minus = -1;
-                str++;
-        }
-        while (ft_isdigit(*str))
-                result = (result * 10) + (*str++ - 48);
-        return (result * minus);
-}
-
-
-// verifie si le str est composer que de nombre
-int ft_verif_arg_to_int(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
+	thread = ft_create_loop_list(vars, 0);
+	i = -1;
+	ft_print_tilte();
+	while (++i < vars->nb_philo)
 	{
-		if (ft_isdigit(str[i]) == 0)
-			return (-1);
-		i++;
+		thread->time = ft_get_time();
+		thread->time_init = ft_get_time();
+		pthread_mutex_init(&thread->vars->mutex_status, NULL);
+		pthread_mutex_init(&thread->vars->mutex_count, NULL);
+		pthread_create(&thread->thread, NULL, ft_create_routine, thread);
+		thread = thread->next;
 	}
-	return (ft_atoi(str));
+	count = 1;
+	while (count <= vars->nb_philo)
+	{
+		pthread_join(thread->thread, NULL);
+		thread = thread->next;
+		count++;
+	}
+	ft_print_last();
+	ft_lstclear(&thread, vars->nb_philo);
 }
-int		ft_strlen(char *str)
-{
-	int i;
-
-	i = 0;
-	while(str[i])
-		i++;
-	return (i);
-}
-
 
 int	ft_error(int status, char *msg_error)
 {
@@ -75,18 +51,8 @@ int	ft_error(int status, char *msg_error)
 	return (1);
 }
 
-int main(int argc, char **argv)
+int	ft_verif_args(t_philo *philo, char **argv, int argc)
 {
-	t_philo *philo;
-
-	philo = malloc(sizeof(t_philo) * 1);
-	if (philo == 0)
-		return (0);
-	if (argc != 5 && argc != 6)
-	{
-		write(1, "error, argument not good !\n", 27);
-		return (0);
-	}
 	philo->nb_philo = ft_verif_arg_to_int(argv[1]);
 	if (ft_error(philo->nb_philo, "error, nb philo not good !\n") == 0)
 		return (0);
@@ -107,7 +73,28 @@ int main(int argc, char **argv)
 	}
 	else
 		philo->nb_eat = -1;
-	printf("nb philo = %d | time dead = %d | time eat %d | time sleep %d | param = %d\n", philo->nb_philo, philo->time_dead, philo->time_eat, philo->time_sleep, philo->nb_eat);
+	return (1);
+}
+
+int	main(int argc, char **argv)
+{
+	t_philo	*philo;
+
+	philo = malloc(sizeof(t_philo) * 1);
+	if (philo == 0)
+	{
+		free(philo);
+		return (0);
+	}
+	if (argc != 5 && argc != 6)
+	{
+		write(1, "error, argument not good !\n", 27);
+		free(philo);
+		return (0);
+	}
+	if (ft_verif_args(philo, argv, argc) == 0)
+		return (0);
 	ft_create_philo(philo);
+	free(philo);
 	return (1);
 }
