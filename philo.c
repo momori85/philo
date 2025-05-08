@@ -6,7 +6,7 @@
 /*   By: amblanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 20:59:49 by amaury            #+#    #+#             */
-/*   Updated: 2025/05/08 16:04:57 by amblanch         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:32:36 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	ft_create_philo(t_philo *vars)
 	ft_lstclear(&thread, vars->nb_philo);
 }
 
-int	ft_error(int status, char *msg_error)
+int	ft_error(int status, char *msg_error, char *str)
 {
-	if (status == -1)
+	if (status == -1 || ft_atoi_verif(str) == 0)
 	{
 		write(1, msg_error, ft_strlen(msg_error));
 		return (0);
@@ -54,21 +54,23 @@ int	ft_error(int status, char *msg_error)
 int	ft_verif_args(t_philo *philo, char **argv, int argc)
 {
 	philo->nb_philo = ft_verif_arg_to_int(argv[1]);
-	if (ft_error(philo->nb_philo, "error, nb philo not good !\n") == 0)
+	if (ft_error(philo->nb_philo, "error, nb philo not good !\n", argv[1]) == 0)
 		return (0);
 	philo->time_dead = ft_verif_arg_to_int(argv[2]);
-	if (ft_error(philo->time_dead, "error, time dead not good !\n") == 0)
+	if (ft_error(philo->time_dead, "error, time dead not good !\n", \
+		argv[2]) == 0)
 		return (0);
 	philo->time_eat = ft_verif_arg_to_int(argv[3]);
-	if (ft_error(philo->time_eat, "error, time eat not good !\n") == 0)
+	if (ft_error(philo->time_eat, "error, time eat not good !\n", argv[3]) == 0)
 		return (0);
 	philo->time_sleep = ft_verif_arg_to_int(argv[4]);
-	if (ft_error(philo->time_sleep, "error, time sleep not good !\n") == 0)
+	if (ft_error(philo->time_sleep, "error, time sleep not good !\n", \
+		argv[4]) == 0)
 		return (0);
 	if (argc == 6)
 	{
 		philo->nb_eat = ft_verif_arg_to_int(argv[5]);
-		if (ft_error(philo->nb_eat, "error, nb eat not good !\n") == 0)
+		if (ft_error(philo->nb_eat, "error, nb eat not good !\n", argv[5]) == 0)
 			return (0);
 	}
 	else

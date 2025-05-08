@@ -6,7 +6,7 @@
 /*   By: amblanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 10:07:30 by amblanch          #+#    #+#             */
-/*   Updated: 2025/05/08 10:17:18 by amblanch         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:24:26 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,30 @@ int	ft_atoi(const char *str)
 	while (ft_isdigit(*str))
 		result = (result * 10) + (*str++ - 48);
 	return (result * minus);
+}
+
+int	ft_atoi_verif(const char *str)
+{
+	long	result;
+	int		minus;
+
+	minus = 1;
+	result = 0;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			minus = -1;
+		str++;
+	}
+	while (ft_isdigit(*str))
+	{
+		result = (result * 10) + (*str++ - 48);
+		if (result > 2147483647 || (result * minus) < -2147483648)
+			return (0);
+	}
+	return (1);
 }
 
 int	ft_verif_arg_to_int(char *str)

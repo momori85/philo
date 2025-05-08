@@ -6,7 +6,7 @@
 /*   By: amblanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 20:57:35 by amaury            #+#    #+#             */
-/*   Updated: 2025/05/08 16:08:16 by amblanch         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:24:59 by amblanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ int				ft_count_eat(t_create_philo *thread, int *count);
 t_create_philo	*ft_create_loop_list(t_philo *vars, int count);
 int				ft_verif_dead(t_create_philo *thread, int *count);
 int				ft_verif_status_dead(t_create_philo *thread);
+int				ft_atoi_verif(const char *str);
 
 #endif
